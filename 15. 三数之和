@@ -1,0 +1,44 @@
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        #先排序数组
+        nums.sort()
+        res, k = [], 0
+        #循环列表到倒数第2位
+        for k in range(len(nums) - 2):
+            #因为我已经在第一步已经进行排序了，后面的肯定越来越大，如果你k已经大于0了，后面的怎么办
+            if nums[k] > 0: 
+                break # 1. because of j > i > k.
+            #如果列表里后一个和前一个相等，就跳过，往后循环
+            if k > 0 and nums[k] == nums[k - 1]: 
+                continue # 2. skip the same `nums[k]`.
+            #设了两个变量，初始值一个是k后一位，一个是列表长度减1
+            i, j = k + 1, len(nums) - 1
+            #当i<j时，循环
+            while i < j: # 3. double pointer
+                #s等于三个指针所指的数的和
+                s = nums[k] + nums[i] + nums[j]
+                #如果s小于0，i加1，也就是列表指针i往后移一位
+                #并且当i小于j并且i所指的后一位与前一位相等时，i往后移一位
+                if s < 0:
+                    i += 1
+                    while i < j and nums[i] == nums[i - 1]: 
+                        i += 1
+                #如果s大于0，j减1，就是最右边那个指针往左边移一位
+                #并且当i小于j并且j所指的值与后一位相等时，j要再往左边移一位
+                #上面的i是跟左边的数比较，这里的j是跟右边的数比较
+                elif s > 0:
+                    j -= 1
+                    while i < j and nums[j] == nums[j + 1]: 
+                        j -= 1
+                #如果s等于0的话，就把它加到结果列表里，然后i往后移一位，j往前移一位
+                #并且当i<j和i所指和前一位相等时，i往后移一位
+                #并且当i<j和j所指e和后一位相等时，j往左一位
+                else:
+                    res.append([nums[k], nums[i], nums[j]])
+                    i += 1
+                    j -= 1
+                    while i < j and nums[i] == nums[i - 1]: 
+                        i += 1
+                    while i < j and nums[j] == nums[j + 1]: 
+                        j -= 1
+        return res
