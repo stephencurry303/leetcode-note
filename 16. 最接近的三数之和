@@ -1,0 +1,51 @@
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        #求数组长度
+        n=len(nums)
+        #如果数组为空或者数组长度小于3，返回空
+        if(not nums or n<3):
+            return None
+        #将数组排序
+        nums.sort()
+        #预定义一个变量res,为无穷大
+        res=float("inf")
+        #遍历列表
+        for i in range(n):
+            #如果当前索引大于0并且当前索引所指值等于前一个值，就继续，也就是数值相等的就跳过
+            if(i>0 and nums[i]==nums[i-1]):
+                continue
+            #定义两个指针，左指针在当前索引后一个索引，右指针是最后一个索引
+            L=i+1
+            R=n-1
+            #当左指针小于右指针时，进行循环
+            while(L<R):
+                #把a三个指针所指的值加起来
+                cur_sum=nums[i]+nums[L]+nums[R]
+                #如果加起来的值等于我们要比较的目标值，就返回目标值
+                if(cur_sum==target):
+                    return target
+                #如果加起来的值减去目标值的绝对值小于无穷大减去目标值，那么结果等于这三个值加起来的和
+                if(abs(cur_sum-target)<abs(res-target)):
+                    res=cur_sum
+                #如果三个加起来的值减去目标值小于0，那么左指针加1
+                #如果大于等于0，右指针减1
+                if(cur_sum-target<0):
+                    L+=1
+                else:
+                    R-=1
+        return res
+
+
+
+
+        # nums, r, end = sorted(nums), float('inf'), len(nums) - 1
+        # #c循环到倒数第二位
+        # for c in range(len(nums) - 2):
+        #     #bisect.bisect_left(a,x, lo=0, hi=len(a))
+        #     #查找在有序列表 a 中插入 x 的index。lo 和 hi 用于指定列表的区间，默认是使用整个列表。
+        #     #如果 x 已经存在，在其左边插入。返回值为 index。
+        #     i, j = max(c + 1, bisect.bisect_left(nums, target - nums[end] - nums[c], c + 1, end) - 1), end
+        #     while r != target and i < j:
+        #         s = nums[c] + nums[i] + nums[j]
+        #         r, i, j = min(r, s, key=lambda x: abs(x - target)), i + (s < target), j - (s > target)
+        # return r
