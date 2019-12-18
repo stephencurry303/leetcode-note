@@ -1,0 +1,38 @@
+class Solution:
+    def divide(self, dividend: int, divisor: int) -> int:
+        #无论是正是负，全部取绝对值
+        i, a, b = 0, abs(dividend), abs(divisor)
+        #如果除数是0，或者除数小于被除数
+        if a == 0 or a < b:
+            return 0
+        #当被除数不大于除数时，被除数等于被除数往左移一位，i加1，直到被除数大于除数停止循环
+        while b <= a:
+            b = b << 1
+            i = i + 1
+        else:
+            res = (1 << (i - 1)) + self.divide(a - (b >> 1), abs(divisor))
+            if (dividend ^ divisor) < 0:
+                res = -res
+            return min(res, (1 << 31) - 1)
+            
+
+#2.
+def divide(self, dividend: int, divisor: int) -> int:
+    sign = (dividend > 0) ^ (divisor > 0)
+    dividend = abs(dividend)
+    divisor = abs(divisor)
+    count = 0
+    #把除数不断左移，直到它大于被除数
+    while dividend >= divisor:
+        count += 1
+        divisor <<= 1
+    result = 0
+    while count > 0:
+        count -= 1
+        divisor >>= 1
+        if divisor <= dividend:
+            result += 1 << count #这里的移位运算是把二进制（第count+1位上的1）转换为十进制
+            dividend -= divisor
+    if sign: result = -result
+    return result if -(1<<31) <= result <= (1<<31)-1 else (1<<31)-1 
+
