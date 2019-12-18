@@ -1,0 +1,30 @@
+class Solution:
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+        if not words:
+            return []
+        ans=[]
+        worddic={}
+        lenword=len(words[0])
+        totalwords=len(words)
+        for word in words:
+            if word in worddic:
+                worddic[word]+=1
+            else:
+                worddic[word]=1
+        for i in range(len(s)-lenword*totalwords+1):
+            count=0
+            j=i
+            worddic_copy=worddic.copy()
+            while count<totalwords:
+                curslide=s[j:j+lenword]
+                cs=curslide
+                if cs in worddic_copy and worddic_copy[cs]!=0:
+                    j+=lenword
+                    worddic_copy[cs]-=1
+                    count+=1
+                else:
+                    break
+            if count==totalwords:
+                ans.append(i)         
+                     
+        return ans
