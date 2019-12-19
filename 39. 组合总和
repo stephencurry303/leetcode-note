@@ -1,0 +1,22 @@
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        #我自己的思路是要考虑三种情况
+        #1.列表里直接有目标数
+        #2. 列表中有可以被目标数整除的数
+        #3. 需要判断列表中的数是否能加起来等于目标数，注意，列表中的每个数都可以多次使用
+        #回溯
+        #如果目标为0的情况
+        if target == 0:
+            return [[]]#这里有两个中括号
+        #列表为空或者目标值小于最小值的情况，返回空列表，只有一个中括号
+        elif not candidates or target < min(candidates):
+            return []
+        #建空列表
+        res = []
+        #循环列表，这下面这个双循环是最重要的
+        for i in candidates:
+            # 以下过滤器可避免出现排列不同的重复答案且免排序，x>=i和x<=i都行
+            #调用原函数，
+            for j in self.combinationSum(list(filter(lambda x: x <= i, candidates)), target - i):
+                res.append([i] + j)
+        return res
