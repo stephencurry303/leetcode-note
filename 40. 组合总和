@@ -1,0 +1,22 @@
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:    
+        if not candidates:#为空返回空列表
+            return []
+        #长度
+        n=len(candidates)
+        #给排序，以保证列表中的值不会被重复使用
+        candidates.sort()
+        res=[]
+        def helper(i,tmp,target):
+            print(i,tmp,target)
+            if(target==0):
+                res.append(tmp)
+                return
+            if(i==n or target<candidates[i]):
+                return
+            for j in range(i,n):
+                if(j>i and candidates[j]==candidates[j-1]):
+                    continue
+                helper(j+1,tmp+[candidates[j]],target-candidates[j])
+        helper(0,[],target)
+        return res
