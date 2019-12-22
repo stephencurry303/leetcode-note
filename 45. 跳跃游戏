@@ -16,7 +16,7 @@ class Solution:
             end = far
         return jumps
 
-        #2.
+        #2. 找到第一个能到达最后位置的nums[i]，再找第一个能到达这个位置的nums[k]，递归直到nums[0]，
         #如果数组里的数都是1，就返回数组长度减1
         if nums.count(1)==len(nums):
             return len(nums)-1
