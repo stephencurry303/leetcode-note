@@ -1,0 +1,34 @@
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        #1.
+        #jumps为所需跳跃数
+        jumps, start, end, far = 0, 0, 0, 0
+        while end < len(nums)-1:
+            #jumps变量首先加1
+            jumps += 1
+            #循环范围是从start变量到end+1变量
+            for i in range(start, end+1):
+                #far变量取之前的far变量和第i个位置的值加上i的值中的较大值
+                far = max(far, nums[i]+i)
+            #start变量进行更新，等于end变量+1
+            #end变量更新为far的值
+            start = end + 1
+            end = far
+        return jumps
+
+        #2.
+        #如果数组里的数都是1，就返回数组长度减1
+        if nums.count(1)==len(nums):
+            return len(nums)-1
+        #定义一个函数，参数为n
+        def fun(n):
+            #如果n为0，返回0
+            if not n:
+                return 0
+            #
+            for k,v in enumerate(n):
+                #如果v大于等于n的长度减去k,返回【调用定义的函数，参数是n的前k个元素】+1
+                if v>=len(n)-k:
+                    return fun(n[:k])+1
+        #调用nums列表
+        return fun(nums[:-1])
