@@ -1,0 +1,28 @@
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        #1.
+        if nums is None: 
+            return []
+        if len(nums) == 1: 
+            return [nums]
+        res = []
+        for x in nums:
+            ys=nums+[]#这一步的作用是什么？
+            #把当前元素去掉
+            ys.remove(x)#这一步的作用又是什么？
+            #调用原函数，此时列表是去掉当前元素的列表
+            for y in self.permute(ys):
+                res.append([x]+y)
+        return res
+
+        #2. 回溯法
+        res = []
+        def backtrack(nums, tmp):
+            if not nums:
+                res.append(tmp)
+                return 
+            for i in range(len(nums)):
+                backtrack(nums[:i] + nums[i+1:], tmp + [nums[i]])
+        backtrack(nums, [])
+        return res
+
